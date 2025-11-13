@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click2Call</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #f5f5f7;
+            color: #1d1d1f;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            max-width: 900px;
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 32px;
+            color: #1d1d1f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .icon {
+            width: 32px;
+            height: 32px;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 40px;
+        }
+        
+        .settings-panel {
+            flex: 1;
+        }
+        
+        .preview-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d2d2d7;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.2s;
+            background: #fff;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #007aff;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
+        
+        .color-input {
+            height: 48px;
+            padding: 5px;
+            cursor: pointer;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+            cursor: pointer;
+        }
+        
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .preview-container {
+            background: #f5f5f7;
+            border-radius: 12px;
+            padding: 40px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .preview-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #000000;
+            color: #00FF00;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            border-radius: 8px;
+            border: 2px solid #333333;
+        }
+        
+        .copy-button {
+            padding: 12px 24px;
+            background: #007aff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+            max-width: 200px;
+        }
+        
+        .copy-button:hover {
+            background: #0051d5;
+        }
+        
+        .copy-button:active {
+            transform: scale(0.98);
+        }
+        
+        .copy-button.copied {
+            background: #34c759;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #d2d2d7;
+            font-size: 13px;
+            color: #86868b;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .container {
+                padding: 24px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.62 10.79C8.06 13.62 10.38 15.94 13.21 17.38L15.41 15.18C15.69 14.9 16.08 14.82 16.43 14.93C17.55 15.3 18.75 15.5 20 15.5C20.55 15.5 21 15.95 21 16.5V20C21 20.55 20.55 21 20 21C10.61 21 3 13.39 3 4C3 3.45 3.45 3 4 3H7.5C8.05 3 8.5 3.45 8.5 4C8.5 5.25 8.7 6.45 9.07 7.57C9.18 7.92 9.1 8.31 8.82 8.59L6.62 10.79Z" fill="#007AFF"/>
+            </svg>
+            Click2Call
+        </h1>
+        
+        <div class="main-content">
+            <div class="settings-panel">
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" placeholder="1234567890" maxlength="10" autofocus>
+                </div>
+                
+                <div class="form-group">
+                    <label for="linkText">Link Text</label>
+                    <input type="text" id="linkText" value="Call Now">
+                </div>
+                
+                <div class="form-group">
+                    <label for="buttonStyle">Button Style</label>
+                    <select id="buttonStyle">
+                        <option value="rounded" selected>Rounded</option>
+                        <option value="pill">Pill</option>
+                        <option value="square">Square</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bgColor">Background Color</label>
+                    <input type="color" id="bgColor" value="#000000" class="color-input">
+                </div>
+                
+                <div class="form-group">
+                    <label for="textColor">Text Color</label>
+                    <input type="color" id="textColor" value="#00FF00" class="color-input">
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="showBorder" checked>
+                    <label for="showBorder">Show Border</label>
+                </div>
+                
+                <div class="form-group" id="borderColorGroup">
+                    <label for="borderColor">Border Color</label>
+                    <input type="color" id="borderColor" value="#333333" class="color-input">
+                </div>
+            </div>
+            
+            <div class="preview-panel">
+                <div class="preview-container">
+                    <a href="#" class="preview-button" id="previewBtn">Call Now</a>
+                    <button class="copy-button" id="copyBtn" onclick="copyToClipboard()">Copy HTML</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Made with ❤️ by Sauravhhh
+        </div>
+    </div>
+
+    <script>
+        // Update preview in real-time
+        function updatePreview() {
+            const linkText = document.getElementById('linkText').value;
+            const bgColor = document.getElementById('bgColor').value;
+            const textColor = document.getElementById('textColor').value;
+            const borderColor = document.getElementById('borderColor').value;
+            const buttonStyle = document.getElementById('buttonStyle').value;
+            const showBorder = document.getElementById('showBorder').checked;
+            const previewBtn = document.getElementById('previewBtn');
+            
+            previewBtn.textContent = linkText;
+            previewBtn.style.backgroundColor = bgColor;
+            previewBtn.style.color = textColor;
+            
+            // Update button style
+            if (buttonStyle === 'rounded') {
+                previewBtn.style.borderRadius = '8px';
+            } else if (buttonStyle === 'pill') {
+                previewBtn.style.borderRadius = '25px';
+            } else if (buttonStyle === 'square') {
+                previewBtn.style.borderRadius = '0';
+            }
+            
+            // Update border
+            if (showBorder) {
+                previewBtn.style.border = '2px solid ' + borderColor;
+                previewBtn.style.borderWidth = '2px';
+                previewBtn.style.borderStyle = 'solid';
+            } else {
+                previewBtn.style.border = 'none';
+            }
+            
+            // Update href
+            const phoneNumber = document.getElementById('phone').value.trim();
+            if (phoneNumber && phoneNumber.length === 10) {
+                previewBtn.href = `tel:+91${phoneNumber}`;
+            }
+        }
+        
+        // Toggle border color input visibility
+        function toggleBorderColor() {
+            const showBorder = document.getElementById('showBorder').checked;
+            const borderColorGroup = document.getElementById('borderColorGroup');
+            
+            if (showBorder) {
+                borderColorGroup.style.display = 'block';
+            } else {
+                borderColorGroup.style.display = 'none';
+            }
+            updatePreview();
+        }
+        
+        // Validate phone number input (only digits)
+        document.getElementById('phone').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '');
+            if (this.value.length > 10) {
+                this.value = this.value.slice(0, 10);
+            }
+            updatePreview();
+        });
+        
+        // Add event listeners for real-time preview
+        document.getElementById('linkText').addEventListener('input', updatePreview);
+        document.getElementById('bgColor').addEventListener('input', updatePreview);
+        document.getElementById('textColor').addEventListener('input', updatePreview);
+        document.getElementById('borderColor').addEventListener('input', updatePreview);
+        document.getElementById('buttonStyle').addEventListener('change', updatePreview);
+        document.getElementById('showBorder').addEventListener('change', toggleBorderColor);
+        
+        function copyToClipboard() {
+            const phoneNumber = document.getElementById('phone').value.trim();
+            
+            if (!phoneNumber || phoneNumber.length !== 10) {
+                document.getElementById('phone').style.borderColor = '#ff3b30';
+                document.getElementById('phone').focus();
+                return;
+            }
+            
+            // Get customization options
+            const linkText = document.getElementById('linkText').value;
+            const bgColor = document.getElementById('bgColor').value;
+            const textColor = document.getElementById('textColor').value;
+            const borderColor = document.getElementById('borderColor').value;
+            const buttonStyle = document.getElementById('buttonStyle').value;
+            const showBorder = document.getElementById('showBorder').checked;
+            
+            // Generate tel: link with India country code
+            const telLink = `tel:+91${phoneNumber}`;
+            
+            // Generate HTML button code
+            let borderRadius = '8px';
+            if (buttonStyle === 'pill') borderRadius = '25px';
+            if (buttonStyle === 'square') borderRadius = '0';
+            
+            let htmlCode = `<a href="${telLink}" style="display: inline-block; padding: 12px 24px; text-decoration: none; font-weight: 500; background-color: ${bgColor}; color: ${textColor};`;
+            
+            // Add border if enabled
+            if (showBorder) {
+                htmlCode += ` border: 2px solid ${borderColor};`;
+            }
+            
+            htmlCode += ` border-radius: ${borderRadius};">${linkText}</a>`;
+            
+            // Copy to clipboard
+            const textarea = document.createElement('textarea');
+            textarea.value = htmlCode;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            
+            // Update button
+            const copyBtn = document.getElementById('copyBtn');
+            copyBtn.textContent = '✓ Copied!';
+            copyBtn.classList.add('copied');
+            
+            setTimeout(() => {
+                copyBtn.textContent = 'Copy HTML';
+                copyBtn.classList.remove('copied');
+            }, 2000);
+        }
+        
+        // Clear error on input
+        document.getElementById('phone').addEventListener('input', function() {
+            this.style.borderColor = '#d2d2d7';
+        });
+        
+        // Initialize preview
+        updatePreview();
+    </script>
+</body>
+</html>
